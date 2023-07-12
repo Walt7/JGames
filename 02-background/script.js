@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 
 const can = { w: canvas.width = 800, h: canvas.height = 700 };
-const gameSpeed = 5;
+let gameSpeed = 5;
 
 
 
@@ -46,6 +46,17 @@ const bkdImg = new Array(5).fill().map((_, i) => {
     img.src = `img/bkg/layer-${++i}.png`
     return new Layer(img, i / 5)
 });
+
+const slider = document.getElementById('slider');
+slider.value = gameSpeed;
+const vel = document.getElementById('vel');
+
+slider.addEventListener('change', e => {
+    gameSpeed = +e.target.value;
+    vel.innerHTML = gameSpeed;
+
+})
+slider.dispatchEvent(new Event('change'));
 
 let x = 0, x2 = 2400;
 function animate() {
