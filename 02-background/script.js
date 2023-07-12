@@ -11,13 +11,16 @@ const bkdImg = new Array(5).fill().map((_, i) => {
     return img
 });
 
-let x = 0;
+let x = 0, x2 = 2400;
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(bkdImg[3], x, 0);
-    if (x < -2400) x = 2400;
+    ctx.drawImage(bkdImg[4], x, 0);
+    ctx.drawImage(bkdImg[4], x2, 0);
+    if (x < -2400) x = 2400 + x2 - gameSpeed;
     else x -= gameSpeed;
+    if (x2 < -2400) x2 = 2400 + x - gameSpeed;
+    else x2 -= gameSpeed;
     requestAnimationFrame(animate);
 }
 
