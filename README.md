@@ -8,6 +8,8 @@
 trascrivo il gioco in 2d in javascript del video per esercizio
 
 
+
+altre immagini per giochi li trovi anche qui: https://bevouliin.com/
+
+
 ![before](https://i.imgur.com/Y1KuKCL.png)
-
-
