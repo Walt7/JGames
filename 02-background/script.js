@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 const can = { w: canvas.width = 800, h: canvas.height = 700 };
 let gameSpeed = 5;
 
-
+let GameFrame = 0;
 
 class Layer {
     constructor(image, speedModifier) {
@@ -14,7 +14,6 @@ class Layer {
         this.height = 700;
         this.image = image;
         this.speedModifier = speedModifier;
-        this.speed = gameSpeed * this.speedModifier;
     }
     /** fo tutto! */
     run() {
@@ -23,9 +22,8 @@ class Layer {
     }
     update() {
         this.speed = gameSpeed * this.speedModifier;
-        if (this.x < -this.width)
-            this.x = 0;
-        this.x = Math.floor(this.x - this.speed);
+
+        this.x = -GameFrame * this.speed % this.width;
     }
     draw() {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
@@ -54,6 +52,7 @@ let x = 0, x2 = 2400;
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     bkdImg.forEach(l => l.run());
+    GameFrame++;
     requestAnimationFrame(animate);
 }
 
