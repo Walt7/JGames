@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "streetsidesoftware.code-spell-checker-italian",
+        "ms-ceintl.vscode-language-pack-it"
+    ]
+}
