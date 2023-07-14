@@ -13,28 +13,29 @@ class Enemy {
         this.width = this.spriteWidth / 3;
         this.height = this.spriteHeight / 3;
         this.frame = 0;
-        this.ReStart()
+        this.flapStep = Math.floor(Math.random() * 3) + 1;
+        this.ReStart();
     }
     clone() {
         return new Enemy(this.image);
     }
     ReStart() {
-        this.x = Math.random() * can.w;
-        this.y = Math.random() * can.h;
+        this.x = Math.random() * (can.w - this.width);
+        this.y = Math.random() * (can.h - this.height);
         /** speed */
-        this.s = Math.random() * 4 - 2
+        //this.s = Math.random() * 4 - 2
         return this;
     }
     /** fo tutto! */
     run() {
-        this.update()
-        this.draw()
+        this.update();
+        this.draw();
     }
     update() {
-        this.x += this.s / 10
-        this.y += this.s / 10
-        if (!(GameFrame % 3))
-            this.frame = ++this.frame % 4
+        this.x += (Math.random() * 15 - 7.5)/8;
+        this.y += (Math.random() * 15 - 7.5)/8;
+        if (!(GameFrame % this.flapStep))
+            this.frame = ++this.frame % 5;
     }
     draw() {
         //ctx.strokeRect(this.x, this.y, this.width, this.height)
