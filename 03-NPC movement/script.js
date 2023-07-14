@@ -10,21 +10,18 @@ class Enemy {
         this.image = image;
         this.spriteWidth = 293;
         this.spriteHeight = 155;
+        this.speed = Math.random() * 4 + 1
         this.width = this.spriteWidth / 3;
         this.height = this.spriteHeight / 3;
         this.frame = 0;
         this.flapStep = Math.floor(Math.random() * 3) + 1;
-        this.ReStart();
+        this.x = Math.random() * (can.w - this.width);
+        this.y = Math.random() * (can.h - this.height);
+        this.speed = Math.random() * 4 + 1
+        this.angle = Math.random() * 2;
     }
     clone() {
         return new Enemy(this.image);
-    }
-    ReStart() {
-        this.x = Math.random() * (can.w - this.width);
-        this.y = Math.random() * (can.h - this.height);
-        /** speed */
-        //this.s = Math.random() * 4 - 2
-        return this;
     }
     /** fo tutto! */
     run() {
@@ -32,10 +29,15 @@ class Enemy {
         this.draw();
     }
     update() {
-        this.x += (Math.random() * 15 - 7.5) / 8;
-        this.y += (Math.random() * 15 - 7.5) / 8;
-        if (!(GameFrame % (this.flapStep * 5)))
+        this.x -= this.speed;
+        if (this.x + this.width < 0)
+            this.x = can.w;
+        this.y += Math.sin(this.angle);
+        
+        if (!(GameFrame % (this.flapStep * 5))){
             this.frame = ++this.frame % 5;
+            this.angle += .1;
+        }
     }
     draw() {
         //ctx.strokeRect(this.x, this.y, this.width, this.height)
@@ -49,11 +51,11 @@ const EnemyTy = new Array(4).fill().map((_, i) => {
     img.src = `img/enemy${++i}.png`
     return new Enemy(img)
 });
-const nemici = Array(20).fill().map((_, i) => EnemyTy[0].clone().ReStart())
+const nemici = Array(20).fill().map((_, i) => EnemyTy[0].clone())
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     nemici.forEach(l => l.run());
-    GameFrame =  new Date().valueOf()  
+    GameFrame = new Date().valueOf()
     //GameFrame++;
     requestAnimationFrame(animate);
 }
