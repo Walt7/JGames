@@ -3,13 +3,16 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 
 const can = { w: canvas.width = 500, h: canvas.height = 500 };
-
+let GameFrame = 0;
 class Enemy {
     constructor(image) {
         this.x; this.y;
-        this.width = 100;
-        this.height = 100;
         this.image = image;
+        this.spriteWidth = 293;
+        this.spriteHeight = 155;
+        this.width = this.spriteWidth / 3;
+        this.height = this.spriteHeight / 3;
+        this.frame = 0;
         this.ReStart()
     }
     clone() {
@@ -30,10 +33,12 @@ class Enemy {
     update() {
         this.x += this.s / 10
         this.y += this.s / 10
+        if (!(GameFrame % 3))
+            this.frame = ++this.frame % 4
     }
     draw() {
-        ctx.strokeRect(this.x, this.y, this.width, this.height)
-        //ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+        //ctx.strokeRect(this.x, this.y, this.width, this.height)
+        ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height)
     }
 
 }
@@ -47,7 +52,7 @@ const nemici = Array(20).fill().map((_, i) => EnemyTy[0].clone().ReStart())
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     nemici.forEach(l => l.run());
-
+    GameFrame++;
     requestAnimationFrame(animate);
 }
 
