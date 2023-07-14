@@ -2,4 +2,4 @@
 
 come gestione delle animazioni del giocatore
 
-[![qui](gif "qui")](Player.gif "qui")
+[![Preview](https://raw.githubusercontent.com/Walt7/JGames/main/01-playerImage/Player.gif)
