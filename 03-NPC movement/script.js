@@ -32,9 +32,9 @@ class Enemy {
         this.draw();
     }
     update() {
-        this.x += (Math.random() * 15 - 7.5)/8;
-        this.y += (Math.random() * 15 - 7.5)/8;
-        if (!(GameFrame % this.flapStep))
+        this.x += (Math.random() * 15 - 7.5) / 8;
+        this.y += (Math.random() * 15 - 7.5) / 8;
+        if (!(GameFrame % (this.flapStep * 5)))
             this.frame = ++this.frame % 5;
     }
     draw() {
@@ -53,7 +53,8 @@ const nemici = Array(20).fill().map((_, i) => EnemyTy[0].clone().ReStart())
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     nemici.forEach(l => l.run());
-    GameFrame++;
+    GameFrame =  new Date().valueOf()  
+    //GameFrame++;
     requestAnimationFrame(animate);
 }
 
