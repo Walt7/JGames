@@ -2,14 +2,13 @@
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 
-const can = { w: canvas.width = 500, h: canvas.height = 500 };
+const can = { w: canvas.width = 800, h: canvas.height = 600 };
 let GameFrame = 0;
 class Enemy {
     constructor(image) {
-        this.x; this.y;
         this.image = image;
-        this.spriteWidth = 293;
-        this.spriteHeight = 155;
+        this.spriteWidth = image.width / 6;
+        this.spriteHeight = image.height;
         this.speed = Math.random() * 4 + 1
         this.width = this.spriteWidth / 3;
         this.height = this.spriteHeight / 3;
@@ -19,6 +18,8 @@ class Enemy {
         this.y = Math.random() * (can.h - this.height);
         this.speed = Math.random() * 4 + 1
         this.angle = Math.random() * 2;
+        this.angleSpeed = Math.random() * .2;
+        this.curve = Math.random() * 3;
     }
     clone() {
         return new Enemy(this.image);
@@ -29,14 +30,14 @@ class Enemy {
         this.draw();
     }
     update() {
-        this.x -= this.speed;
+        this.x -= this.speed / 2;
         if (this.x + this.width < 0)
             this.x = can.w;
-        this.y += Math.sin(this.angle);
-        
-        if (!(GameFrame % (this.flapStep * 5))){
+        this.y += Math.sin(this.angle) * this.curve;
+
+        if (!(GameFrame % (this.flapStep * 5))) {
             this.frame = ++this.frame % 5;
-            this.angle += .1;
+            this.angle += this.angleSpeed;
         }
     }
     draw() {
@@ -45,19 +46,29 @@ class Enemy {
     }
 
 }
-/** creo le tipologie di nemici */
-const EnemyTy = new Array(4).fill().map((_, i) => {
-    const img = new Image()
-    img.src = `img/enemy${++i}.png`
-    return new Enemy(img)
-});
-const nemici = Array(20).fill().map((_, i) => EnemyTy[0].clone())
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    nemici.forEach(l => l.run());
-    GameFrame = new Date().valueOf()
-    //GameFrame++;
-    requestAnimationFrame(animate);
-}
 
-animate();
+
+/** creo le tipologie di nemici */
+const EnemyTyPr = new Array(4).fill().map((_, i) =>
+    new Promise((resolve, reject) => {
+        const img = new Image()
+        img.src = `img/enemy${++i}.png`
+        img.onload = _ => resolve(new Enemy(img))
+        img.onerror = _ => reject(new Error(`Failed to load image: ${url}`));
+    }
+    )
+)
+Promise.all(EnemyTyPr).then(EnemyTy => {
+    const nemici = Array(20).fill().map((_, i) => EnemyTy[1].clone())
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        nemici.forEach(l => l.run());
+        GameFrame = new Date().valueOf()
+        //GameFrame++;
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+})
+
