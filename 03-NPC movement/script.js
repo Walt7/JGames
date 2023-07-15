@@ -18,8 +18,8 @@ class Enemy {
         this.y = Math.random() * (can.h - this.height);
         this.speed = Math.random() * 4 + 1
         this.angle = Math.random() * 2;
-        this.angleSpeed = Math.random() * .2;
-        this.curve = Math.random() * 3;
+        this.angleSpeed = Math.random() * 1.5 + .5;
+        this.curve = Math.random() * 200 + 50;
     }
     clone() {
         return new Enemy(this.image);
@@ -30,10 +30,12 @@ class Enemy {
         this.draw();
     }
     update() {
-        this.x -= this.speed / 2;
+        //this.x -= this.speed / 2; // mostro 2
+        this.x = can.w / 2  * Math.sin(this.angle * Math.PI / 90) + (can.w / 2 - this.width / 2);
         if (this.x + this.width < 0)
             this.x = can.w;
-        this.y += Math.sin(this.angle) * this.curve;
+        //this.y += Math.sin(this.angle) * this.curve; // mostro 2
+        this.y = can.h / 2  * Math.cos(this.angle * Math.PI / 270) + (can.h / 2 - this.height / 2);
 
         if (!(GameFrame % (this.flapStep * 5))) {
             this.frame = ++this.frame % 5;
@@ -59,7 +61,7 @@ const EnemyTyPr = new Array(4).fill().map((_, i) =>
     )
 )
 Promise.all(EnemyTyPr).then(EnemyTy => {
-    const nemici = Array(20).fill().map((_, i) => EnemyTy[1].clone())
+    const nemici = Array(90).fill().map((_, i) => EnemyTy[2].clone())
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         nemici.forEach(l => l.run());
