@@ -3,6 +3,7 @@
 ![ss](https://img.shields.io/badge/javascript-Game_learn-blue) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Walt7/JGames) ![GitHub repo file count (file type)](https://img.shields.io/github/directory-file-count/Walt7/JGames)
 
 
+
 ## Basato su un tutorial su YouTube di freeCodeCamp.org
 
 **Requisiti**
