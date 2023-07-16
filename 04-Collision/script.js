@@ -6,7 +6,7 @@ const can = { w: canvas.width = 500, h: canvas.height = 700 };
 can.pos = canvas.getBoundingClientRect();
 const toArr = o => [o.W, o.H];
 
-const esplosioni = [];
+let esplosioni = [];
 class esplosione {
     constructor(pos) {
         this.sprite = { W: 200, H: 179 };
@@ -16,10 +16,13 @@ class esplosione {
         this.image = new Image();
         this.image.src = 'img/boom.png';
         this.frame = 0;
-        this.flapStep = 5;
+        this.flapStep = 3;
+    }
+    finito() {
+        return this.frame > 6
     }
     run() {
-        if (this.frame > 6) return // esplosione completata
+        if (this.finito()) return // esplosione completata
         this.update();
         this.draw();
     }
@@ -46,8 +49,9 @@ let GameFrame = 0;
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     esplosioni.forEach(l => l.run());
-    GameFrame = new Date().valueOf()
-    //GameFrame++;
+    if (GameFrame % 100 == 0)
+        esplosioni = esplosioni.filter(x => !x.finito())
+    GameFrame = new Date().valueOf();     //GameFrame++;
     requestAnimationFrame(animate);
 }
 
