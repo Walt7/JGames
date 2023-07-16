@@ -37,11 +37,15 @@ class esplosione {
         ctx.drawImage(this.image, this.frame * this.sprite.W, 0, ...toArr(this.sprite), this.x, this.y, ...toArr(this.sz))
     }
 }
+const  createAnimation =e=> esplosioni.push(new esplosione([e.x - can.pos.left, e.y - can.pos.top]))
 
-window.addEventListener('click', e => {
-    const pos = [e.x - can.pos.left, e.y - can.pos.top];
-    esplosioni.push(new esplosione(pos))
-})
+window.addEventListener('click', createAnimation);
+
+window.addEventListener('mousemove', createAnimation);
+
+
+
+
 
 let GameFrame = 0;
 
