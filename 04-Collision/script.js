@@ -14,10 +14,12 @@ class esplosione {
         this.x = pos[0];
         this.y = pos[1];
         this.image = new Image();
-        this.image.src = 'img/boom.png';
+        this.image.src = 'resource/boom.png';
         this.frame = 0;
         this.flapStep = 3;
         this.angle = Math.random() * 6.2;
+        this.Audio = new Audio()
+        this.Audio.src = 'resource/Fire impact 1.wav';
     }
     finito() {
         return this.frame > 6
@@ -28,7 +30,7 @@ class esplosione {
         this.draw();
     }
     update() {
-
+        this.frame == 0 && this.Audio.play();
         if (!(GameFrame % (this.flapStep * 5))) {
             this.frame++;
         }
@@ -43,11 +45,11 @@ class esplosione {
         ctx.restore();
     }
 }
-const createAnimation = e => esplosioni.push(new esplosione([e.x - can.pos.left, e.y - can.pos.top]))
+const createExplosion = e => esplosioni.push(new esplosione([e.x - can.pos.left, e.y - can.pos.top]))
 
-window.addEventListener('click', createAnimation);
+window.addEventListener('click', createExplosion);
 
-window.addEventListener('mousemove', createAnimation);
+//window.addEventListener('mousemove', createExplosion);
 
 
 
