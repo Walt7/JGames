@@ -6,6 +6,8 @@ const can = { w: canvas.width = 500, h: canvas.height = 700 };
 can.pos = canvas.getBoundingClientRect();
 const toArr = o => [o.W, o.H];
 
+let GameFrame = 0, lastTime = 0;
+
 let esplosioni = [];
 class esplosione {
     constructor(pos) {
@@ -16,10 +18,11 @@ class esplosione {
         this.image = new Image();
         this.image.src = 'resource/boom.png';
         this.frame = 0;
-        this.flapStep = 3;
+        this.flapStep = 50;
         this.angle = Math.random() * 6.2;
         this.Audio = new Audio()
         this.Audio.src = 'resource/Fire impact 1.wav';
+        this.NextGameFrame = GameFrame + this.flapStep;
     }
     finito() {
         return this.frame > 6
@@ -31,8 +34,9 @@ class esplosione {
     }
     update() {
         this.frame == 0 && this.Audio.play();
-        if (!(GameFrame % (this.flapStep * 5))) {
+        if (GameFrame > this.NextGameFrame) {
             this.frame++;
+            this.NextGameFrame = this.NextGameFrame + this.flapStep;
         }
     }
     draw() {
@@ -55,15 +59,21 @@ window.addEventListener('click', createExplosion);
 
 
 
-let GameFrame = 0;
 
 
-function animate() {
+
+function animate(timestamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     esplosioni.forEach(l => l.run());
     if (GameFrame % 100 == 0)
         esplosioni = esplosioni.filter(x => !x.finito())
-    GameFrame = new Date().valueOf();     //GameFrame++;
+
+    let deltaTime = timestamp - lastTime;
+    lastTime = timestamp;
+   
+    //GameFrame = new Date().valueOf();     //GameFrame++;
+    GameFrame += deltaTime
+     console.log(GameFrame);
     requestAnimationFrame(animate);
 }
 
