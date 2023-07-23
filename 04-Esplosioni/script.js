@@ -57,23 +57,15 @@ window.addEventListener('click', createExplosion);
 
 
 
-
-
-
-
-
-function animate(timestamp) {
+/** Ciclo base animazione */
+function animate(timestamp = 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     esplosioni.forEach(l => l.run());
     if (GameFrame % 100 == 0)
         esplosioni = esplosioni.filter(x => !x.finito())
-
-    let deltaTime = timestamp - lastTime;
-    lastTime = timestamp;
-   
     //GameFrame = new Date().valueOf();     //GameFrame++;
-    GameFrame += deltaTime
-     console.log(GameFrame);
+    GameFrame = Math.floor(timestamp)
+    console.log(GameFrame);
     requestAnimationFrame(animate);
 }
 
