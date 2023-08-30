@@ -1,6 +1,7 @@
 # JGames (demo di gioco in Javascript con canvas)
 
 ![ss](https://img.shields.io/badge/javascript-Game_learn-blue) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Walt7/JGames) ![GitHub repo size](https://img.shields.io/github/repo-size/Walt7/JGames)
+![](https://img.shields.io/github/languages/top/Walt7/JGames.svg?style=flat)
 
 
 
